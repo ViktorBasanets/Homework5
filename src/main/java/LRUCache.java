@@ -14,6 +14,10 @@ public class LRUCache {
         last.isLast = true;
     }
 
+    public int getSize() {
+        return size;
+    }
+
     public int get(int key) {
         Node result = searchKey(key);
         return result.key == key ? result.value : -1;
@@ -56,12 +60,10 @@ public class LRUCache {
 
     private void putFirst(Node node) {
         node.next = first;
-
-        if (first.isLast) {
+        node.isFirst = true;
+        if (size == 0) {
             node.isLast = true;
         }
-
-        node.isFirst = true;
         first.prev = node;
         first.isFirst = false;
         first = node;
@@ -69,9 +71,9 @@ public class LRUCache {
     }
 
     private int popLast() {
-        last = last.prev;
+        last = last.next;
         last.isLast = true;
-        last.next = null;
+        last.prev = null;
         size--;
         return last.value;
     }
@@ -83,6 +85,10 @@ public class LRUCache {
         }
 
         Node node = first;
+
+        if (node.key == key) {
+            return node;
+        }
 
         while (!node.isLast) {
             node = node.next;
@@ -96,10 +102,10 @@ public class LRUCache {
 
     private class Node {
 
+        private int key;
         private int value;
         private Node prev;
         private Node next;
-        private int key;
         private boolean isFirst;
         private boolean isLast;
 
