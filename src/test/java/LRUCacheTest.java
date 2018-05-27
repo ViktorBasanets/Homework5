@@ -18,7 +18,7 @@ public class LRUCacheTest {
     @Test
     public void testGetValueByKey() {
 
-        cache.putFirst(40);
+        cache.put(1, 40);
 
         int expectedResult = 40;
         int actualResult = cache.get(1);
@@ -29,7 +29,7 @@ public class LRUCacheTest {
     @Test
     public void testPutValueByKey() {
 
-        cache.putFirst(50);
+        cache.put(1, 50);
 
         int expectedResult = 50;
         int actualResult = cache.get(1);

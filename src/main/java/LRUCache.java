@@ -8,7 +8,6 @@ public class LRUCache {
     public LRUCache(int capacity) {
         this.capacity = capacity;
         Node node = new Node();
-        node.key = 0;
         first = node;
         last = node;
         first.isFirst = true;
@@ -27,7 +26,9 @@ public class LRUCache {
             if (size == capacity) {
                 this.popLast();
             }
-            this.putFirst(value);
+            node.key = key;
+            node.value = value;
+            this.putFirst(node);
             return;
         }
 
@@ -53,14 +54,17 @@ public class LRUCache {
         first = node;
     }
 
-    public void putFirst(int value) {
-        Node node = new Node(value);
+    private void putFirst(Node node) {
         node.next = first;
+
+        if (first.isLast) {
+            node.isLast = true;
+        }
+
         node.isFirst = true;
         first.prev = node;
         first.isFirst = false;
         first = node;
-        first.key = first.next.key + 1;
         size++;
     }
 
@@ -87,7 +91,7 @@ public class LRUCache {
             }
         }
 
-        return node.isLast ? new Node() : node;
+        return node.isLast && node.key != key ? new Node() : node;
     }
 
     private class Node {
@@ -103,9 +107,9 @@ public class LRUCache {
             this.key = -1;
         }
 
-        private Node(int value) {
+        private Node(int key, int value) {
+            this.key = key;
             this.value = value;
-            this.key = -1;
         }
     }
 }
