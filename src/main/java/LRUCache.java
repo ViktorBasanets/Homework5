@@ -112,10 +112,5 @@ public class LRUCache {
         private Node() {
             this.key = -1;
         }
-
-        private Node(int key, int value) {
-            this.key = key;
-            this.value = value;
-        }
     }
 }
